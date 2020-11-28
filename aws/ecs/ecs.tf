@@ -45,8 +45,9 @@ resource "aws_ecs_service" "test_service" {
     type = "CODE_DEPLOY"
   }
 
+
   lifecycle {
-    ignore_changes = [task_definition]
+    ignore_changes = [task_definition, load_balancer]
   }
 
   tags = {
@@ -75,4 +76,10 @@ resource "aws_security_group" "ecs_test_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+}
+
+resource "aws_cloudwatch_log_group" "test-server" {
+  name = "/ecs/test-server"
+
+  retention_in_days = 3
 }
