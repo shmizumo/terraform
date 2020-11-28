@@ -1,5 +1,5 @@
-resource "aws_security_group" "allow_80" {
-  name        = "allow_80"
+resource "aws_security_group" "ecs_alb_sg" {
+  name        = "ecs-alb-sg"
   description = "Allow http inbound traffic"
   vpc_id      = data.terraform_remote_state.vpc.outputs.vpc_id
 
@@ -10,6 +10,21 @@ resource "aws_security_group" "allow_80" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = [data.terraform_remote_state.vpc.outputs.vpc_cidr]
+  }
+
+  # codedeploy の AfterAllowTestTraffic Hook用
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["${data.terraform_remote_state.vpc.outputs.nat_gateway_ip}/32"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -18,7 +33,7 @@ resource "aws_security_group" "allow_80" {
   }
 
   tags = {
-    Name = "allow_80"
+    Name = "ecs-alb-sg"
     Terraform = "mizu0/terraform"
   }
 }
@@ -29,7 +44,7 @@ resource "aws_lb" "ecs_bluegreen" {
   internal                   = false
   idle_timeout               = 60
 
-  security_groups    = [aws_security_group.allow_80.id]
+  security_groups    = [aws_security_group.ecs_alb_sg.id]
   subnets = data.terraform_remote_state.vpc.outputs.public_subnets
 
   tags = {

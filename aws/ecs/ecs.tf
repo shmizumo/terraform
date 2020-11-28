@@ -76,6 +76,10 @@ resource "aws_security_group" "ecs_test_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  tags = {
+    Name = "ecs-test-sg"
+    Terraform = "mizu0/terraform"
+  }
 }
 
 resource "aws_cloudwatch_log_group" "test-server" {
