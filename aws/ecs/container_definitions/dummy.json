@@ -1,8 +1,17 @@
 [
     {
       "name": "server",
-      "image": "hello-world",
+      "image": "nginx",
       "essential": true,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "secretOptions": null,
+        "options": {
+          "awslogs-group": "/ecs/test-server",
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
       "portMappings": [
         {
           "protocol": "tcp",
