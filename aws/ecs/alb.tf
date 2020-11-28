@@ -7,7 +7,7 @@ resource "aws_security_group" "allow_80" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = [data.terraform_remote_state.vpc.outputs.vpc_cidr]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -72,7 +72,7 @@ resource "aws_lb_target_group" "ecs_blue" {
   name                 = "ecs-blue-tg"
   vpc_id               = data.terraform_remote_state.vpc.outputs.vpc_id
   target_type          = "ip"
-  port                 = 8000
+  port                 = 80
   protocol             = "HTTP"
   deregistration_delay = 30
 
@@ -98,7 +98,7 @@ resource "aws_lb_target_group" "ecs_green" {
   name                 = "ecs-green-tg"
   vpc_id               = data.terraform_remote_state.vpc.outputs.vpc_id
   target_type          = "ip"
-  port                 = 8000
+  port                 = 80
   protocol             = "HTTP"
   deregistration_delay = 30
 
