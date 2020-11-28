@@ -1,0 +1,13 @@
+[
+    {
+      "name": "server",
+      "image": "hello-world",
+      "essential": true,
+      "portMappings": [
+        {
+          "protocol": "tcp",
+          "containerPort": 8000
+        }
+      ]
+    }
+  ]
