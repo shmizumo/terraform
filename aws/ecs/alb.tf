@@ -142,3 +142,26 @@ resource "aws_lb_listener_rule" "ecs_bluegreen" {
     ]
   }
 }
+
+resource "aws_lb_listener_rule" "ecs_bluegreen_test" {
+  listener_arn = aws_lb_listener.ecs_bluegreen_test.arn
+  priority     = 100
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.ecs_green.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/*"]
+    }
+  }
+
+  lifecycle {
+    # actionの状態は無視
+    ignore_changes = [
+      action
+    ]
+  }
+}
