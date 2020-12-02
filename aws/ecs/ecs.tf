@@ -13,6 +13,7 @@ resource "aws_ecs_task_definition" "test_taskd" {
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   container_definitions    = file("./container_definitions/dummy.json")
+  execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
 
   # task_definition は初回作成以降は別リポジトリ&github actions を利用して更新
   lifecycle {
@@ -86,4 +87,24 @@ resource "aws_cloudwatch_log_group" "test-server" {
   name = "/ecs/test-server"
 
   retention_in_days = 3
+}
+
+data "aws_iam_policy_document" "assume_role" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ecs-tasks.amazonaws.com"]
+    }
+  }
+}
+resource "aws_iam_role" "ecs_task_execution_role" {
+  name               = "MyEcsTaskRole"
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
+}
+
+resource "aws_iam_role_policy_attachment" "amazon_ecs_task_execution_role_policy" {
+  role       = aws_iam_role.ecs_task_execution_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
