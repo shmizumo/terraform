@@ -1,7 +1,12 @@
 variable "gcp_project" {}
 
 provider "google" {
-  credentials = file()
   project     = var.gcp_project
   region      = "us-west1"
+}
+
+terraform {
+  backend "gcs" {
+    bucket = "mizu0-tfstate"
+  }
 }
