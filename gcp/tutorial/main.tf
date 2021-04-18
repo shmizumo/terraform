@@ -31,13 +31,13 @@ resource "google_compute_instance" "default" {
 }
 
 resource "google_compute_firewall" "default" {
- name    = "flask-app-firewall"
- network = "default"
+  name    = "flask-app-firewall"
+  network = "default"
 
- allow {
-   protocol = "tcp"
-   ports    = ["5000"]
- }
+  allow {
+    protocol = "tcp"
+    ports    = ["5000"]
+  }
 }
 
 // A variable for extracting the external IP address of the instance
