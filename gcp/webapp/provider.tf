@@ -8,7 +8,7 @@ provider "google" {
 terraform {
   backend "gcs" {
     bucket = "mizu0-tfstate"
-    prefix = "gke"
+    prefix = "webapp"
   }
 
   required_providers {

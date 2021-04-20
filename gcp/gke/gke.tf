@@ -16,7 +16,7 @@ variable "gke_num_nodes" {
 # GKE Cluster
 resource "google_container_cluster" "primary" {
   name     = "gke-tutorial-cluster"
-  location = "us-east1"
+  location = "asia-northeast1"
 
   remove_default_node_pool = true
   initial_node_count       = 1
@@ -38,7 +38,7 @@ resource "google_container_cluster" "primary" {
 # Separately Managed Node Pool
 resource "google_container_node_pool" "primary_nodes" {
   name       = "${google_container_cluster.primary.name}-node-pool"
-  location   = "us-east1"
+  location   = "asia-northeast1"
   cluster    = google_container_cluster.primary.name
   node_count = var.gke_num_nodes
 
