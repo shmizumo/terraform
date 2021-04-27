@@ -5,7 +5,7 @@ resource "google_compute_network" "gke_vpc" {
 
 resource "google_compute_subnetwork" "gke_subnet" {
   name          = "gke-tutorial-subnet"
-  region        = "us-east1"
+  region        = "asia-northeast1"
   network       = google_compute_network.gke_vpc.name
   ip_cidr_range = "10.10.0.0/24"
 }
