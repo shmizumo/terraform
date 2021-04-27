@@ -1,6 +1,7 @@
 resource "google_spanner_instance" "main" {
-  config       = "regional-us-east1"
+  config       = "regional-asia-northeast1"
   display_name = "Example Spanner Instance"
+  name         = "test-instance"
   num_nodes    = 2
   labels = {
     "repository" = "mizu0-terraform"
