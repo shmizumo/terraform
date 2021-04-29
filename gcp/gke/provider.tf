@@ -7,7 +7,7 @@ provider "google" {
 
 terraform {
   backend "gcs" {
-    bucket = "mizu0-tfstate"
+    bucket = "mizu0-gcp-tfstate"
     prefix = "gke"
   }
 

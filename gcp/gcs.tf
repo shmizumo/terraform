@@ -1,7 +1,7 @@
 #先に作成
 resource "google_storage_bucket" "tfstate" {
-  name     = "mizu0-tfstate"
-  location = "us-west1"
+  name          = "mizu0-gcp-tfstate"
+  location      = "us-west1"
   storage_class = "REGIONAL"
 
   versioning {
